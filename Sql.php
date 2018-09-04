@@ -26,15 +26,15 @@ class Sql extends PDO{
 
 		$stmt = $this->conn->prepare($rawQuery);
 
-		foreach ($params as $key => $value) {
+		//foreach ($params as $key => $value) {
 
-			$stmt->bindParam($key, $value);
+		//	$stmt->bindParam($key, $value);
 			$this->setParams($stmt, $params);
 
 			$stmt->execute();
 
 			return $stmt;
-		}
+		//}
 	}
 
 	public function select($rawQuery, $params = array()):array{
@@ -44,7 +44,7 @@ class Sql extends PDO{
 		if($stmt !== false){
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC);
-		}
+		} 
 	}
 
 }
