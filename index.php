@@ -29,10 +29,16 @@ echo json_encode($lista);*/
 $search = Usuario::search("te1");
 echo json_encode($search);*/
 
-//Traz um cadastro atravez do longi e senha
+/*Traz um cadastro atravez do longi e senha
 $usuario = new Usuario();
 $usuario->login("teste1","123456");
-echo "$usuario";
+echo "$usuario";*/
+
+$aluno = new Usuario("aluno","@lun0");
+
+$aluno->insert();
+
+echo $aluno;
 
 
 ?>

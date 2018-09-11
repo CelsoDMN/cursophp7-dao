@@ -44,6 +44,16 @@ class Usuario{
 	}
 // Fim dos Getters and Setters
 
+	public function __construct($login="", $senha=""){
+
+			date_default_timezone_set('America/Sao_Paulo');
+			$dt = date('Y-m-d H:i:s');
+			$this->setDeslogin($login);
+			$this->setDessenha($senha);
+			$this->setDtcadastro($dt);
+
+	}
+
 	public function __toString(){
 
 		return json_encode(array(
@@ -62,12 +72,7 @@ class Usuario{
 
 		if(count($results) > 0){
 
-			$row = $results[0];
-
-			$this->setId($row['id']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+			$this->setData($results[0]);
 		}
 	}
 
@@ -97,12 +102,9 @@ class Usuario{
 
 		if(count($results) > 0){
 
-			$row = $results[0];
+			$this->setData($results[0]);
 
-			$this->setId($row['id']);
-			$this->setDeslogin($row['deslogin']);
-			$this->setDessenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));
+
 		}
 
 		else{
@@ -110,6 +112,32 @@ class Usuario{
 			throw new Exception("Login e/ou senha invalido");
 			
 		}
+	}
+
+	public function setData($data){
+
+		$this->setId($data['id']);
+		$this->setDeslogin($data['deslogin']);
+		$this->setDessenha($data['dessenha']);
+		$this->setDtcadastro(new DateTime($data['dtcadastro']));
+
+	}
+
+	public function insert(){
+
+		$sql = new Sql();
+
+		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :SENHA, :DTCADASTRO)", array(
+			':LOGIN'=>$this->getDeslogin(),
+			':SENHA'=>$this->getDessenha(),
+			':DTCADASTRO'=>$this->getDtcadastro()
+		));
+
+		if(count($results) > 0){
+
+			$this->setData($results[0]);
+		}
+
 	}
 
 	
